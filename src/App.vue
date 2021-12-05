@@ -1,22 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer class="rounded-r-xl" v-model="drawer" app clipped floating temporary>
-      <v-list dense>
-        <v-row class="ma-3 mb-3">
-        <v-toolbar-title class="align-center">
-          <span class="text-lg-h6">iceberg-digital.co.uk</span>
-        </v-toolbar-title>
-        </v-row>
-        <v-list-item v-for="item in items" :key="item.icon" link>
-          <v-list-item-action>
-          <v-icon>{{item.icon}}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-          <v-list-item-title>{{item.text}}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    <Nav />
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click="drawer=!drawer"/>
       <v-toolbar-title class="align-center">
@@ -63,6 +47,7 @@
     <v-content class="blue-grey lighten-4">
       <v-container>
         <v-row class="mb-4">
+          <v-col sm="12" class="pa-0">
           <v-col sm="12" class="mt-4">
             <v-card class="mt-3 rounded-sm rounded-t-lg">
                <v-row>
@@ -82,16 +67,51 @@
           <v-col sm="12">
             <v-card class="blue-grey darken-2">
                <v-row>
-                 <v-col sm="9" class="pa-1">
+                   <v-col sm="1" class="pa-1">
+                    <v-card-text class="text-primary ml-6 pa-0">
+                      <v-card-actions class="mt-2 text-caption-h6 pa-2 white--text">
+                        Appointment Id
+                      </v-card-actions>
+                </v-card-text>
+                 </v-col>
+                 <v-col sm="2" class="pa-1">
                    <v-card-text class="text-primary ml-6 pa-0">
                     <v-card-actions class="mt-2 text-caption-h6 pa-2 white--text">
-                      Name
+                      Agent Name
                     </v-card-actions>
                 </v-card-text>
                  </v-col>
-                 <v-col sm="3" class="pa-1">
-                   <v-card-text class="text-primary ml-6 pa-0">
-                    <v-card-actions class="ml-12 mt-2 text-caption-h6 pa-2 white--text">
+                 <v-col sm="2" class="pa-1">
+                   <v-card-text class="text-primary pa-0">
+                    <v-card-actions class="mt-2 text-caption-h6 pa-2 white--text">
+                      Contact Name
+                    </v-card-actions>
+                </v-card-text>
+                 </v-col>
+                 <v-col sm="2" class="pa-1">
+                   <v-card-text class="text-primary pa-0">
+                    <v-card-actions class="mt-2 text-caption-h6 pa-2 white--text">
+                      Appointment Date
+                    </v-card-actions>
+                </v-card-text>
+                 </v-col>
+                 <v-col sm="2" class="pa-1">
+                   <v-card-text class="text-primary pa-0">
+                    <v-card-actions class="mt-2 text-caption-h6 pa-2 white--text">
+                      Contact E-mail
+                    </v-card-actions>
+                </v-card-text>
+                 </v-col>
+                 <v-col sm="1" class="pa-1">
+                   <v-card-text class="text-primary pa-0">
+                    <v-card-actions class="mt-2 text-caption-h6 pa-2 white--text">
+                      Contact Phone
+                    </v-card-actions>
+                </v-card-text>
+                 </v-col>
+                 <v-col sm="2" class="pa-1">
+                   <v-card-text class="text-primary pa-0">
+                    <v-card-actions class="mt-2 text-caption-h6 pa-2 white--text">
                       Operations
                     </v-card-actions>
                    </v-card-text>
@@ -99,22 +119,50 @@
                 </v-row>
             </v-card>
           </v-col>
-          <v-col sm="12" v-for="item in info" :key="item.records">
+          </v-col>
+          <v-col sm="12" v-for="item in info" :key="item.records" class="pa-0">
+          <v-col sm="12" v-for="(elem,index) in item.records" :key="elem.records" :value="index">
             <v-card>
                <v-row class="mt-3">
-                 <v-col sm="9" class="pa-1">
-                   <v-card-text class="text-primary ml-6">
-                  <div>{{item}}</div>
+                 <v-col sm="1">
+                   <v-card-text class="text-primary">
+                    <div>{{elem.fields.appointment_id}}</div>
+                  </v-card-text>
+                 </v-col>
+                 <v-col sm="2">
+                   <v-card-text class="text-primary">
+                  <div>{{elem.fields.agent_name ? elem.fields.agent_name[0] : ''}} {{elem.fields.agent_surname ? elem.fields.agent_surname[0] : ''}}</div>
                 </v-card-text>
                  </v-col>
-                 <v-col sm="3" class="pa-1">
+                 <v-col sm="2">
+                   <v-card-text class="text-primary">
+                  <div>{{elem.fields.contact_name ? elem.fields.contact_name[0] : ''}} {{elem.fields.contact_surname ? elem.fields.contact_surname[0] : ''}}</div>
+                </v-card-text>
+                 </v-col>
+                 <v-col sm="2">
+                   <v-card-text class="text-primary">
+                  <div>{{moment(elem.fields.appointment_date, "DD-MM-YYYY").format('L')}} {{moment(elem.fields.appointment_date, "DD-MM-YYYY").format('LT')}}</div>
+                </v-card-text>
+                 </v-col>
+                 <v-col sm="2">
+                   <v-card-text class="text-primary">
+                  <div>{{elem.fields.contact_email ? elem.fields.contact_email[0] : ''}}</div>
+                </v-card-text>
+                 </v-col>
+                 <v-col sm="1">
+                   <v-card-text class="text-primary">
+                  <div>{{elem.fields.contact_phone ? elem.fields.contact_phone[0] : ''}}</div>
+                </v-card-text>
+                 </v-col>
+                 <v-col sm="2">
                     <v-card-actions>
-                  <v-btn color="red" text>Delete</v-btn>
-                  <v-btn color="orange" text>Show Detail</v-btn>
+                      <v-btn color="yellow" text>Edit</v-btn>
+                      <v-btn color="red" text>Delete</v-btn>
                     </v-card-actions>
                  </v-col>
                 </v-row>
             </v-card>
+          </v-col>
           </v-col>
         </v-row>
       </v-container>
@@ -126,19 +174,14 @@
 </template>
 
 <script>
+import Nav from '@/components/Nav';
+
 export default {
   name: "App",
+  components: {
+    Nav,
+  },
   data: () => ({
-    items:[
-      {icon:"mdi-trending-up", text:"hello"},
-      {icon:"mdi-youtube-subscription", text:"hello"},
-      {icon:"mdi-history", text:"hello"},
-      {icon:"mdi-trending-up", text:"hi"},
-      {icon:"mdi-playlist-play", text:"hello"},
-      {icon:"mdi-trending-up", text:"hi"},
-      {icon:"mdi-trending-up", text:"hello"},
-      {icon:"mdi-trending-up", text:"hello"}
-    ],
     info: null,
     drawer:false,
     menu:false,
@@ -148,7 +191,7 @@ export default {
         this.$axios
           .request({
             method: 'get',
-            baseURL: 'https://api.airtable.com/v0/appgykZBGTF92MnHu/Appointments?maxRecords=3&view=Grid%20view',
+            baseURL: 'https://api.airtable.com/v0/appgykZBGTF92MnHu/Appointments',
             headers: {
                 'Authorization': 'Bearer keyNvUWqLnkuKavv7',
             }
@@ -160,6 +203,15 @@ export default {
   watch:{
     theme:function(next){
       this.$vuetify.theme.dark=next
+    }
+  },
+  computed: {
+    splitedList(){
+        let newArr = [...this.info.records]
+      newArr.map(el => {
+        return el.codes = el.codes.split('+')
+      })
+      return newArr
     }
   }
 };

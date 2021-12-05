@@ -22,3 +22,11 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### First Starting
+npm install -g @vue/cli
+vue add vuetify
+npm install material-design-icons-iconfont -D
+npm i --save @fortawesome/fontawesome-free
+npm install moment --save 
+
