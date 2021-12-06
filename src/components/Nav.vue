@@ -7,7 +7,7 @@
           <span class="text-lg-h6">iceberg-digital.co.uk</span>
         </v-toolbar-title>
         </v-row>
-        <v-list-item v-for="item in items" :key="item.icon" :to="link.route" link>
+        <v-list-item v-for="item in items" :key="item.icon">
           <v-list-item-action>
           <v-icon>{{item.icon}}</v-icon>
           </v-list-item-action>
@@ -24,12 +24,12 @@
 
 export default {
     data:() => ({
-        drawer:true,
-        items: [
+        drawer:false,
+        links: [
             {icon:"mdi-youtube-subscription", text:"hello", route: "/home"},
-            {icon:"mdi-history", text:"hello", route: "/about"},
-            {icon:"mdi-trending-up", text:"hi", route: "/"},
-            {icon:"mdi-playlist-play", text:"hello", route: "/"}
+            {icon:"mdi-history", text:"hello", route: "/home"},
+            {icon:"mdi-trending-up", text:"hi"},
+            {icon:"mdi-playlist-play", text:"hello"}
         ]
     })
 }
