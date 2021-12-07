@@ -58,11 +58,39 @@
                 <v-row>
                   <v-col sm="9" class="pa-1">
                     <v-card-text class="text-primary ml-6 pa-0">
-                      <div>Total Count : 200</div>
+                      <div>Total Count : {{ info.data.records.length }}</div>
+                      <v-autocomplete
+                        auto-select-first
+                        clearable
+                        multiple
+                        small-chips
+                        v-model="selected"
+                        :items="filter"
+                        :search-input.sync="search"
+                      ></v-autocomplete>
                     </v-card-text>
                   </v-col>
                   <v-col sm="3" class="pa-1">
-                    <v-card-actions class="ml-12 mt-2"> </v-card-actions>
+                    <v-card-actions class="ml-12 mt-2">
+                      <select v-model="selected">
+                        <option
+                          v-for="elem in info.data.records"
+                          :key="elem.records"
+                        >
+                          {{
+                            elem.fields.agent_name
+                              ? elem.fields.agent_name[0]
+                              : ""
+                          }}
+                          {{
+                            elem.fields.agent_surname
+                              ? elem.fields.agent_surname[0]
+                              : ""
+                          }}
+                        </option>
+                      </select>
+                      <span>Selected: {{ selected }}</span>
+                    </v-card-actions>
                   </v-col>
                 </v-row>
               </v-card>
@@ -188,18 +216,8 @@
                   <v-col sm="2">
                     <v-card-text class="text-primary">
                       <div>
-                        {{
-                          moment(
-                            elem.fields.appointment_date,
-                            "DD-MM-YYYY"
-                          ).format("L")
-                        }}
-                        {{
-                          moment(
-                            elem.fields.appointment_date,
-                            "DD-MM-YYYY"
-                          ).format("LT")
-                        }}
+                        {{ moment(elem.fields.appointment_date).format("L") }}
+                        {{ moment(elem.fields.appointment_date).format("LT") }}
                       </div>
                     </v-card-text>
                   </v-col>
@@ -253,6 +271,7 @@ export default {
     Nav,
   },
   data: () => ({
+    selected: "",
     oldestFirst: false,
     info: null,
     drawer: false,
@@ -269,9 +288,23 @@ export default {
         },
       })
       .then((response) => {
+        response.data.records.sort(function (a, b) {
+          return b.fields.appointment_date.localeCompare(
+            a.fields.appointment_date
+          );
+        });
         this.info = response;
+        this.filter = [];
+        response.data.records.map((elem) => {
+          this.filter.push(
+            (elem.fields.agent_name ? elem.fields.agent_name[0] : "").concat(
+              " ",
+              elem.fields.agent_surname ? elem.fields.agent_surname[0] : ""
+            )
+          );
+        });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   },
