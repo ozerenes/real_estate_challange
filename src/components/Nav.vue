@@ -3,8 +3,7 @@
     <v-app-bar dense elevation="3" flat outlined color="dark" dark app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="text-uppercase">
-        <span class="font-weight-light">AAE</span>
-        <span>IdeaPro</span>
+        <span class="font-weight-light">iceberg-digital.co.uk</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu
@@ -18,16 +17,13 @@
             <v-icon v-on="on">mdi-cog</v-icon>
           </v-avatar>
         </template>
-
         <v-card>
           <v-list>
             <v-list-item>
               <v-avatar color="primary" size="56"></v-avatar>
               <v-list-item-content class="ml-3">
                 <v-list-item-title>Enes Özer</v-list-item-title>
-                <v-list-item-subtitle
-                  >Front-end Web Developer</v-list-item-subtitle
-                >
+                <v-list-item-subtitle>Front-end Web Developer</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -49,11 +45,9 @@
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" class="deep-dark accent-4" dark app>
       <v-layout column align-center>
-        <v-flex class="mt-5">
-          <v-avatar size="100">
-            <img src="/img1.png" alt="" />
-          </v-avatar>
-          <p class="white--text subheading mt-1 text-center">Username</p>
+        <v-flex align-center class="mt-5">
+          <v-avatar color="white" size="80"></v-avatar>
+          <p class="white--text subheading mt-1 text-center">Enes Özer</p>
         </v-flex>
         <v-flex class="mt-4 mb-4"> </v-flex>
       </v-layout>
@@ -83,9 +77,8 @@ export default {
     menu: false,
     theme: false,
     links: [
-      { icon: "dashboard", text: "Dashboard", route: "/dashboard" },
-      { icon: "folder", text: "My Project", route: "/" },
-      { icon: "person", text: "Team", route: "/team" },
+      { icon: "dashboard", text: "Dashboard", route: "/" },
+      { icon: "folder", text: "List", route: "/list" }
     ],
   }),
   watch: {
