@@ -215,7 +215,7 @@
                           <v-btn
                             color="green darken-1"
                             text
-                            v-on:click="deleteC(elem.fields.appointment_id)"
+                            v-on:click="deleteC(elem.fields.appointment_id), dialog = false"
                             x-small
                             class="mt-1"
                           >
