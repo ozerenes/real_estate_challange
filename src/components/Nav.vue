@@ -20,7 +20,7 @@
         <v-card>
           <v-list>
             <v-list-item>
-              <v-avatar color="primary" size="56"></v-avatar>
+              <v-avatar color="primary" size="56"><i class="fas fa-user"></i></v-avatar>
               <v-list-item-content class="ml-3">
                 <v-list-item-title>Enes Özer</v-list-item-title>
                 <v-list-item-subtitle>Front-end Web Developer</v-list-item-subtitle>
@@ -46,7 +46,7 @@
     <v-navigation-drawer v-model="drawer" class="deep-dark accent-4" dark app>
       <v-layout column align-center>
         <v-flex align-center class="mt-5">
-          <v-avatar color="white" size="80"></v-avatar>
+          <v-avatar color="white" size="80"><i style="font-size: 26px" class="fas fa-user"></i></v-avatar>
           <p class="white--text subheading mt-1 text-center">Enes Özer</p>
         </v-flex>
         <v-flex class="mt-4 mb-4"> </v-flex>

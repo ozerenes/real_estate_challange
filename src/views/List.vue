@@ -191,12 +191,39 @@
                     sm="1"
                     class="pa-1 d-flex justify-center align-center flex-column pr-6"
                   >
-                    <v-btn x-small class="mb-1">
-                      <v-icon>edit</v-icon>
-                    </v-btn>
-                    <button v-on:click="deleteC(elem.fields.appointment_id )" x-small class="mt-1">
+                    <v-btn @click.stop="dialog = true" x-small class="mt-1">
                       <v-icon>delete</v-icon>
-                    </button>
+                    </v-btn>
+
+                    <v-dialog v-model="dialog" max-width="290">
+                      <v-card>
+                        <v-card-title class="text-h5">
+                          Do you want to delete this record?
+                        </v-card-title>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+
+                          <v-btn
+                            color="green darken-1"
+                            text
+                            @click="dialog = false"
+                          >
+                            NO
+                          </v-btn>
+
+                          <v-btn
+                            color="green darken-1"
+                            text
+                            v-on:click="deleteC(elem.fields.appointment_id)"
+                            x-small
+                            class="mt-1"
+                          >
+                            YES
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
                   </v-col>
                 </v-row>
               </v-card>
@@ -213,7 +240,7 @@
 
 <script>
 export default {
-  name: "Home",
+  name: "List",
   data: () => ({
     selected: [],
     oldestFirst: false,
@@ -221,7 +248,9 @@ export default {
     menu: false,
     sorteDate: false,
     allinfo: [],
-    filter : []
+    filter: [],
+    dialog: false,
+    search: null,
   }),
   mounted() {
     let _this = this;
@@ -238,11 +267,11 @@ export default {
 
         this.filter = [];
         response.data.records.map((elem) => {
-          
-          let hasFilter = _this.filter.filter(item =>  item.key == elem.fields.agent_id[0] )
-          if(!hasFilter.length){
-          
-              this.filter.push({
+          let hasFilter = _this.filter.filter(
+            (item) => item.key == elem.fields.agent_id[0]
+          );
+          if (!hasFilter.length) {
+            this.filter.push({
               key: elem.fields.agent_id[0],
               text: (elem.fields.agent_name
                 ? elem.fields.agent_name[0]
@@ -251,9 +280,9 @@ export default {
                 " ",
                 elem.fields.agent_surname ? elem.fields.agent_surname[0] : ""
               ),
-            });     
+            });
           }
-          
+
           this.allinfo.push(elem);
         });
       })
@@ -264,7 +293,7 @@ export default {
   watch: {
     selected: function (val) {
       this.info.data.records = [];
-      
+
       if (val.length > 0) {
         this.allinfo.map((item) => {
           val.map((elem) => {
@@ -273,8 +302,7 @@ export default {
             }
           });
         });
-      }
-      else{
+      } else {
         this.info.data.records = this.allinfo;
       }
     },
@@ -306,23 +334,25 @@ export default {
         return "gray";
       }
     },
-    deleteC: function(id){
-      debugger;
-       this.info.data.records = this.info.data.records.filter(item => item.fields.appointment_id != id);
+    deleteC: function (id) {
+      this.info.data.records = this.info.data.records.filter(
+        (item) => item.fields.appointment_id != id
+      );
     },
-    update(record){
-       let  id = record.fields.appointment_id; 
-       this.info.data.records = this.info.data.records.map(item => {
-            if(item.fields.appointment_id  == id ){
-               item = record; 
-            }
-            return item;
-       } 
-       )  
-    },
-    insert(record){
-        this.info.data.record.push(record);
-    }
+    //  update item
+    // update(record) {
+    //   let id = record.fields.appointment_id;
+    //   this.info.data.records = this.info.data.records.map((item) => {
+    //     if (item.fields.appointment_id == id) {
+    //       item = record;
+    //     }
+    //     return item;
+    //   });
+    // },
+    // add item
+    // insert(record) {
+    //   this.info.data.record.push(record);
+    // },
   },
 };
 </script>
